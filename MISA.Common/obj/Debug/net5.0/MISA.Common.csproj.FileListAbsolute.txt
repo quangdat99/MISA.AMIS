@@ -1,0 +1,12 @@
+E:\MISA\API\MISA.AMIS\MISA.Common\bin\Debug\net5.0\MISA.Common.deps.json
+E:\MISA\API\MISA.AMIS\MISA.Common\bin\Debug\net5.0\MISA.Common.dll
+E:\MISA\API\MISA.AMIS\MISA.Common\bin\Debug\net5.0\ref\MISA.Common.dll
+E:\MISA\API\MISA.AMIS\MISA.Common\bin\Debug\net5.0\MISA.Common.pdb
+E:\MISA\API\MISA.AMIS\MISA.Common\obj\Debug\net5.0\MISA.Common.csprojAssemblyReference.cache
+E:\MISA\API\MISA.AMIS\MISA.Common\obj\Debug\net5.0\MISA.Common.GeneratedMSBuildEditorConfig.editorconfig
+E:\MISA\API\MISA.AMIS\MISA.Common\obj\Debug\net5.0\MISA.Common.AssemblyInfoInputs.cache
+E:\MISA\API\MISA.AMIS\MISA.Common\obj\Debug\net5.0\MISA.Common.AssemblyInfo.cs
+E:\MISA\API\MISA.AMIS\MISA.Common\obj\Debug\net5.0\MISA.Common.csproj.CoreCompileInputs.cache
+E:\MISA\API\MISA.AMIS\MISA.Common\obj\Debug\net5.0\MISA.Common.dll
+E:\MISA\API\MISA.AMIS\MISA.Common\obj\Debug\net5.0\ref\MISA.Common.dll
+E:\MISA\API\MISA.AMIS\MISA.Common\obj\Debug\net5.0\MISA.Common.pdb
