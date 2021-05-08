@@ -14,6 +14,8 @@ namespace MISA.Common.Entitis
         public DateTime? DateOfBirth { get; set; }
         public int? Gender { get; set; }
         public Guid? EmployeeDepartmentId { get; set; }
+
+        public string EmployeeDepartmentName { get; set; }
         public string IdentityNumber { get; set; }
         public string IdentityPlace { get; set; }
         public DateTime? IdentityDate { get; set; }

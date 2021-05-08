@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MISA.BL
 {
-    public class EmployeeDepartmentBL:BaseBL<Employee>
+    public class EmployeeDepartmentBL:BaseBL<EmployeeDepartment>
     {
-        public EmployeeDepartmentBL(IBaseDL<Employee> baseDL):base(baseDL)
+        public EmployeeDepartmentBL(IBaseDL<EmployeeDepartment> baseDL):base(baseDL)
         {
 
         }

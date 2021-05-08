@@ -55,6 +55,8 @@ namespace MISA.AMIS
 
             app.UseRouting();
 
+            app.UseCors(options => options.WithOrigins("*").WithMethods("*").WithHeaders("*"));
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

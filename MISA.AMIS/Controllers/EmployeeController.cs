@@ -1,11 +1,14 @@
 ﻿
+using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MISA.BL.Interfaces;
 using MISA.Common.Entitis;
 using MISA.CukCuk.Api.Controllers;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,5 +22,36 @@ namespace MISA.AMIS.Api.Controllers
         {
 
         }
+        [HttpGet("EmployeeCodeMax")]
+        public IActionResult GetEmployeeCodeMax()
+        {
+            // 1. Khai báo thông tin kết nối đến Database :
+            string connectionString = "" +
+                "Host = 47.241.69.179;" +
+                "Port = 3306;" +
+                "User Id = dev;" +
+                "Password = 12345678;" +
+                "Database = 15B_MS145_AMIS_DQDAT;";
+
+            // 2. Khởi tạo kết nối :
+            IDbConnection dbConnection = new MySqlConnection(connectionString);
+
+            // 3. Tương tác với Database ( lấy, sửa, xóa )
+            var sqlCommand = $"Proc_GetEmployeeCodeMax";
+            var employeeCodeMax = dbConnection.QueryFirstOrDefault<string>(sqlCommand, commandType: CommandType.StoredProcedure);
+
+            // 4. Kiểm tra dữ liệu và trả về cho client
+            // - Nếu có dữ liệu trả về 200 kèm theo dữ liệu
+            // - Không có dữ liệu thì trả về 204:
+            if (employeeCodeMax != null)
+            {
+                return Ok(employeeCodeMax);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }
+
     }
 }
