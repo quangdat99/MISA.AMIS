@@ -53,5 +53,42 @@ namespace MISA.AMIS.Api.Controllers
             }
         }
 
+        [HttpGet("EmployeeCodeExist/{EmployeeCode}")]
+
+        public IActionResult CheckEmployeeCodeExist(string EmployeeCode)
+        {
+            // 1. Khai báo thông tin kết nối đến Database :
+            string connectionString = "" +
+                "Host = 47.241.69.179;" +
+                "Port = 3306;" +
+                "User Id = dev;" +
+                "Password = 12345678;" +
+                "Database = 15B_MS145_AMIS_DQDAT;";
+
+            // 2. Khởi tạo kết nối :
+            IDbConnection dbConnection = new MySqlConnection(connectionString);
+
+            var param = new
+            {
+                m_EmployeeCode = EmployeeCode
+            };
+
+            // 3. Tương tác với Database ( lấy, sửa, xóa )
+            var sqlCommand = $"Proc_CheckEmployeeCodeExist";
+            var employeeCodeExist = dbConnection.QueryFirstOrDefault<int>(sqlCommand,param: param, commandType: CommandType.StoredProcedure);
+
+            // 4. Kiểm tra dữ liệu và trả về cho client
+            // - Nếu có dữ liệu trả về 200 kèm theo dữ liệu
+            // - Không có dữ liệu thì trả về 204:
+            if (employeeCodeExist != null)
+            {
+                return Ok(employeeCodeExist);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }
+
     }
 }
