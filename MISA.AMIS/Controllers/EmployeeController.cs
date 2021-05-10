@@ -53,6 +53,35 @@ namespace MISA.AMIS.Api.Controllers
             }
         }
 
+        [HttpGet("CountEmployees")]
+        public int GetCountEmployees(string employeeFilter)
+        {
+            // 1. Khai báo thông tin kết nối đến Database :
+            string connectionString = "" +
+                "Host = 47.241.69.179;" +
+                "Port = 3306;" +
+                "User Id = dev;" +
+                "Password = 12345678;" +
+                "Database = 15B_MS145_AMIS_DQDAT;";
+
+            // 2. Khởi tạo kết nối :
+            IDbConnection dbConnection = new MySqlConnection(connectionString);
+
+            // 3. Tương tác với Database ( lấy, sửa, xóa )
+
+            var sqlCommand = $"Proc_GetCountEmployees";
+            if (employeeFilter == null)
+            {
+                employeeFilter = "";
+            }
+            var param = new
+            {
+                m_Filter = employeeFilter
+            };
+            var countEmployees = dbConnection.Query<int>(sqlCommand, param: param, commandType: CommandType.StoredProcedure).First();
+            return countEmployees;
+        }
+
         [HttpGet("EmployeeCodeExist/{EmployeeCode}")]
 
         public IActionResult CheckEmployeeCodeExist(string EmployeeCode)
