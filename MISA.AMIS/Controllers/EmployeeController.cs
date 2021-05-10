@@ -90,5 +90,35 @@ namespace MISA.AMIS.Api.Controllers
             }
         }
 
+        [HttpGet("EmployeeFilter")]
+        public IEnumerable<Employee> GetEmployeeFilter (string employeeFilter, string pageSize, string pageNumber)
+        {
+            // 1. Khai báo thông tin kết nối đến Database :
+            string connectionString = "" +
+                "Host = 47.241.69.179;" +
+                "Port = 3306;" +
+                "User Id = dev;" +
+                "Password = 12345678;" +
+                "Database = 15B_MS145_AMIS_DQDAT;";
+
+            // 2. Khởi tạo kết nối :
+            IDbConnection dbConnection = new MySqlConnection(connectionString);
+
+            // 3. Tương tác với Database ( lấy, sửa, xóa )
+            var sqlCommand = $"Proc_EmployeeFilter";
+            if (employeeFilter == null)
+            {
+                employeeFilter = "";
+            }
+            var param = new
+            {
+                m_PageIndex = pageNumber,
+                m_PageSize = pageSize,
+                m_Filter = employeeFilter
+            };
+            var employeeFilters = dbConnection.Query<Employee>(sqlCommand, param: param, commandType: CommandType.StoredProcedure);
+            return employeeFilters;
+        }
+
     }
 }
