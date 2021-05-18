@@ -22,6 +22,10 @@ namespace MISA.AMIS.Api.Controllers
         {
 
         }
+        /// <summary>
+        /// Lấy mã nhân viên lớn nhất từ database
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("EmployeeCodeMax")]
         public IActionResult GetEmployeeCodeMax()
         {
@@ -52,7 +56,11 @@ namespace MISA.AMIS.Api.Controllers
                 return NoContent();
             }
         }
-
+        /// <summary>
+        /// Lấy tổng số nhân viên đã lọc quá filter
+        /// </summary>
+        /// <param name="employeeFilter"></param>
+        /// <returns></returns>
         [HttpGet("CountEmployees")]
         public int GetCountEmployees(string employeeFilter)
         {
@@ -81,7 +89,11 @@ namespace MISA.AMIS.Api.Controllers
             var countEmployees = dbConnection.Query<int>(sqlCommand, param: param, commandType: CommandType.StoredProcedure).First();
             return countEmployees;
         }
-
+        /// <summary>
+        /// Check xem có trùng mã nhân viên ở trong database hay ko. trùng - trả về true, không trùng - trả về false.
+        /// </summary>
+        /// <param name="EmployeeCode"></param>
+        /// <returns></returns>
         [HttpGet("EmployeeCodeExist/{EmployeeCode}")]
 
         public IActionResult CheckEmployeeCodeExist(string EmployeeCode)
@@ -118,7 +130,13 @@ namespace MISA.AMIS.Api.Controllers
                 return NoContent();
             }
         }
-
+        /// <summary>
+        /// lấy danh sách nhân viên đã lọc qua filter, theo pageSize, pageNumber.
+        /// </summary>
+        /// <param name="employeeFilter"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageNumber"></param>
+        /// <returns></returns>
         [HttpGet("EmployeeFilter")]
         public IEnumerable<Employee> GetEmployeeFilter (string employeeFilter, string pageSize, string pageNumber)
         {
