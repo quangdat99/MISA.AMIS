@@ -28,5 +28,10 @@ namespace MISA.Common.Entitis
         public DateTime? CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
+        public string BankAccountNumber { get; set; }
+        public string BankName { get; set; }
+
+        public string BankBranchName { get; set; }
+
     }
 }

@@ -40,8 +40,14 @@ namespace MISA.DL
             using (_dbConnection = new MySqlConnection(_connectionString))
             {
                 var tableName = typeof(MISAEntity).Name;
-                var sqlCommand = $"SELECT * FROM {tableName} WHERE {tableName}Id = '{entityId.ToString()}'";
-                var entity = _dbConnection.QueryFirstOrDefault<MISAEntity>(sqlCommand);
+                var sqlCommand = $"Proc_Get{tableName}ById ";
+                var param = new
+                {
+                    m_id = entityId
+                };
+/*
+                var sqlCommand = $"SELECT * FROM {tableName} WHERE {tableName}Id = '{entityId.ToString()}'";*/
+                var entity = _dbConnection.QueryFirstOrDefault<MISAEntity>(sqlCommand, param: param, commandType: CommandType.StoredProcedure);
                 return entity;
             }
         }

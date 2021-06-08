@@ -90,47 +90,6 @@ namespace MISA.AMIS.Api.Controllers
             return countEmployees;
         }
         /// <summary>
-        /// Check xem có trùng mã nhân viên ở trong database hay ko. trùng - trả về true, không trùng - trả về false.
-        /// </summary>
-        /// <param name="EmployeeCode"></param>
-        /// <returns></returns>
-        [HttpGet("EmployeeCodeExist/{EmployeeCode}")]
-
-        public IActionResult CheckEmployeeCodeExist(string EmployeeCode)
-        {
-            // 1. Khai báo thông tin kết nối đến Database :
-            string connectionString = "" +
-                "Host = 47.241.69.179;" +
-                "Port = 3306;" +
-                "User Id = dev;" +
-                "Password = 12345678;" +
-                "Database = 15B_MS145_AMIS_DQDAT;";
-
-            // 2. Khởi tạo kết nối :
-            IDbConnection dbConnection = new MySqlConnection(connectionString);
-
-            var param = new
-            {
-                m_EmployeeCode = EmployeeCode
-            };
-
-            // 3. Tương tác với Database ( lấy, sửa, xóa )
-            var sqlCommand = $"Proc_CheckEmployeeCodeExist";
-            var employeeCodeExist = dbConnection.QueryFirstOrDefault<int>(sqlCommand,param: param, commandType: CommandType.StoredProcedure);
-
-            // 4. Kiểm tra dữ liệu và trả về cho client
-            // - Nếu có dữ liệu trả về 200 kèm theo dữ liệu
-            // - Không có dữ liệu thì trả về 204:
-            if (employeeCodeExist != null)
-            {
-                return Ok(employeeCodeExist);
-            }
-            else
-            {
-                return NoContent();
-            }
-        }
-        /// <summary>
         /// lấy danh sách nhân viên đã lọc qua filter, theo pageSize, pageNumber.
         /// </summary>
         /// <param name="employeeFilter"></param>
@@ -167,5 +126,79 @@ namespace MISA.AMIS.Api.Controllers
             return employeeFilters;
         }
 
+        [HttpGet("NewEmployeeCode")]
+        public IActionResult GetNewEmployeeCode()
+        {
+            // 1. Khai báo thông tin kết nối đến Database :
+            string connectionString = "" +
+                "Host = 47.241.69.179;" +
+                "Port = 3306;" +
+                "User Id = dev;" +
+                "Password = 12345678;" +
+                "Database = 15B_MS145_AMIS_DQDAT;";
+
+            // 2. Khởi tạo kết nối :
+            IDbConnection dbConnection = new MySqlConnection(connectionString);
+
+            // Lấy mã nhân viên lớn nhất trên db.
+            string? maxEmployeeCode = dbConnection.QueryFirstOrDefault<string>("Proc_GetEmployeeCodeMax", commandType: CommandType.StoredProcedure);
+
+            if (maxEmployeeCode == null)
+            {
+                return Ok("NV-0001");
+            }
+
+            string employeeCodeNumStr = string.Empty;
+
+            for (var i = 0; i < maxEmployeeCode.Length; i++)
+            {
+                if (char.IsDigit(maxEmployeeCode[i]))
+                {
+                    employeeCodeNumStr += maxEmployeeCode[i];
+                }
+            }
+
+            int employeeCodeNum = int.Parse(employeeCodeNumStr);
+            employeeCodeNum++;
+
+            return Ok("NV-" + employeeCodeNum);
+        }
+
+        [HttpGet("EmployeeCodeExist")]
+        public IActionResult EmployeeCodeExist(string employeeCode, string employeeId)
+        {
+            // 1. Khai báo thông tin kết nối đến Database :
+            string connectionString = "" +
+                "Host = 47.241.69.179;" +
+                "Port = 3306;" +
+                "User Id = dev;" +
+                "Password = 12345678;" +
+                "Database = 15B_MS145_AMIS_DQDAT;";
+
+            // 2. Khởi tạo kết nối :
+            IDbConnection dbConnection = new MySqlConnection(connectionString);
+
+            var param = new
+            {
+                m_EmployeeCode = employeeCode,
+                m_EmployeeId =  employeeId
+            };
+
+            // 3. Tương tác với Database ( lấy, sửa, xóa )
+            var sqlCommand = $"Proc_CheckEmployeeCodeExist";
+            var employeeCodeExist = dbConnection.QueryFirstOrDefault<int>(sqlCommand, param: param, commandType: CommandType.StoredProcedure);
+
+            // 4. Kiểm tra dữ liệu và trả về cho client
+            // - Nếu có dữ liệu trả về 200 kèm theo dữ liệu
+            // - Không có dữ liệu thì trả về 204:
+            if (employeeCodeExist != null)
+            {
+                return Ok(employeeCodeExist);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }
     }
 }
